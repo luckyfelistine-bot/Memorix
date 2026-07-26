@@ -1,0 +1,272 @@
+[
+  {
+    "name": "Quotes",
+    "slug": "quotes",
+    "description": "Wisdom and inspiration from thinkers across time",
+    "icon": "BookOpen",
+    "color": "#6366f1",
+    "contentCount": 0,
+    "parentId": null
+  },
+  {
+    "name": "Relationships",
+    "slug": "relationships",
+    "description": "Love messages, good morning wishes, compliments, and heartfelt expressions",
+    "icon": "Heart",
+    "color": "#ec4899",
+    "contentCount": 0,
+    "parentId": null
+  },
+  {
+    "name": "Wisdom",
+    "slug": "wisdom",
+    "description": "Proverbs, sayings, and timeless wisdom from cultures worldwide",
+    "icon": "Lightbulb",
+    "color": "#f59e0b",
+    "contentCount": 0,
+    "parentId": null
+  },
+  {
+    "name": "Fun",
+    "slug": "fun",
+    "description": "Jokes, humor, and lighthearted content to brighten your day",
+    "icon": "Sparkles",
+    "color": "#8b5cf6",
+    "contentCount": 0,
+    "parentId": null
+  },
+  {
+    "name": "Brain Teasers",
+    "slug": "brain",
+    "description": "Riddles, puzzles, and trivia to challenge your mind",
+    "icon": "Brain",
+    "color": "#06b6d4",
+    "contentCount": 0,
+    "parentId": null
+  },
+  {
+    "name": "Stories",
+    "slug": "stories",
+    "description": "Short stories, fables, and narratives that inspire and entertain",
+    "icon": "BookOpen",
+    "color": "#10b981",
+    "contentCount": 0,
+    "parentId": null
+  },
+  {
+    "name": "Entertainment",
+    "slug": "entertainment",
+    "description": "Memes, pop culture, and entertainment content",
+    "icon": "Film",
+    "color": "#f43f5e",
+    "contentCount": 0,
+    "parentId": null
+  },
+  {
+    "name": "Lifestyle",
+    "slug": "lifestyle",
+    "description": "Tips and insights for a better, more fulfilling life",
+    "icon": "Coffee",
+    "color": "#d97706",
+    "contentCount": 0,
+    "parentId": null
+  },
+  {
+    "name": "Games",
+    "slug": "games",
+    "description": "Game-related content, trivia, and interactive fun",
+    "icon": "Gamepad2",
+    "color": "#7c3aed",
+    "contentCount": 0,
+    "parentId": null
+  },
+  {
+    "name": "Creativity",
+    "slug": "creativity",
+    "description": "Inspiration for artists, writers, and creative minds",
+    "icon": "PenTool",
+    "color": "#db2777",
+    "contentCount": 0,
+    "parentId": null
+  },
+  {
+    "name": "Knowledge",
+    "slug": "knowledge",
+    "description": "Fascinating facts and educational content across all domains",
+    "icon": "FlaskConical",
+    "color": "#0ea5e9",
+    "contentCount": 0,
+    "parentId": null
+  },
+  {
+    "name": "Productivity",
+    "slug": "productivity",
+    "description": "Tips, hacks, and strategies to maximize your efficiency",
+    "icon": "TrendingUp",
+    "color": "#059669",
+    "contentCount": 0,
+    "parentId": null
+  },
+  {
+    "name": "Events",
+    "slug": "events",
+    "description": "Historical events, anniversaries, and notable moments in time",
+    "icon": "Calendar",
+    "color": "#b45309",
+    "contentCount": 0,
+    "parentId": null
+  },
+  {
+    "name": "Social",
+    "slug": "social",
+    "description": "Content for sharing, conversation starters, and social connection",
+    "icon": "MessageCircle",
+    "color": "#2563eb",
+    "contentCount": 0,
+    "parentId": null
+  },
+  {
+    "name": "Health & Wellness",
+    "slug": "health-wellness",
+    "description": "Mental health, physical wellness, and self-care content",
+    "icon": "Dumbbell",
+    "color": "#dc2626",
+    "contentCount": 0,
+    "parentId": null
+  },
+  {
+    "name": "Education",
+    "slug": "education",
+    "description": "Learning resources, study tips, and educational inspiration",
+    "icon": "GraduationCap",
+    "color": "#4338ca",
+    "contentCount": 0,
+    "parentId": null
+  },
+  {
+    "name": "Finance",
+    "slug": "finance",
+    "description": "Money wisdom, investment insights, and financial literacy",
+    "icon": "Wallet",
+    "color": "#15803d",
+    "contentCount": 0,
+    "parentId": null
+  },
+  {
+    "name": "Travel",
+    "slug": "travel",
+    "description": "Travel guides, destination inspiration, and wanderlust content",
+    "icon": "Plane",
+    "color": "#0891b2",
+    "contentCount": 0,
+    "parentId": null
+  },
+  {
+    "name": "Technology",
+    "slug": "technology",
+    "description": "Tech news, coding wisdom, and digital innovation",
+    "icon": "Code",
+    "color": "#4f46e5",
+    "contentCount": 0,
+    "parentId": null
+  },
+  {
+    "name": "Pets & Nature",
+    "slug": "pets-nature",
+    "description": "Animal facts, nature wonders, and pet love",
+    "icon": "TreePine",
+    "color": "#166534",
+    "contentCount": 0,
+    "parentId": null
+  },
+  {
+    "name": "Kids & Family",
+    "slug": "kids-family",
+    "description": "Family-friendly content, parenting wisdom, and child development",
+    "icon": "Baby",
+    "color": "#e11d48",
+    "contentCount": 0,
+    "parentId": null
+  },
+  {
+    "name": "Inspiration",
+    "slug": "inspiration",
+    "description": "Motivational content, affirmations, and stoic philosophy",
+    "icon": "Zap",
+    "color": "#ca8a04",
+    "contentCount": 0,
+    "parentId": null
+  },
+  {
+    "name": "Media",
+    "slug": "media",
+    "description": "Music, movies, books, and media recommendations",
+    "icon": "Music",
+    "color": "#7e22ce",
+    "contentCount": 0,
+    "parentId": null
+  },
+  {
+    "name": "Mental Health",
+    "slug": "mental-health",
+    "description": "Supportive content for depression, anxiety, hope, and healing",
+    "icon": "Heart",
+    "color": "#be185d",
+    "contentCount": 0,
+    "parentId": null
+  },
+  {
+    "name": "Memes",
+    "slug": "memes",
+    "description": "Internet culture, viral memes, and relatable humor",
+    "icon": "Image",
+    "color": "#ea580c",
+    "contentCount": 0,
+    "parentId": null
+  },
+  {
+    "name": "Philosophy",
+    "slug": "philosophy",
+    "description": "Deep thoughts, philosophical questions, and existential wisdom",
+    "icon": "Compass",
+    "color": "#475569",
+    "contentCount": 0,
+    "parentId": null
+  },
+  {
+    "name": "Achievements",
+    "slug": "achievements",
+    "description": "Human triumphs, record-breaking feats, and inspiring accomplishments",
+    "icon": "Trophy",
+    "color": "#d97706",
+    "contentCount": 0,
+    "parentId": null
+  },
+  {
+    "name": "History",
+    "slug": "history",
+    "description": "Historical events, figures, and turning points that shaped our world",
+    "icon": "History",
+    "color": "#78350f",
+    "contentCount": 0,
+    "parentId": null
+  },
+  {
+    "name": "Science",
+    "slug": "science",
+    "description": "Scientific discoveries, space exploration, and natural phenomena",
+    "icon": "FlaskConical",
+    "color": "#0369a1",
+    "contentCount": 0,
+    "parentId": null
+  },
+  {
+    "name": "Sports",
+    "slug": "sports",
+    "description": "Athletic achievements, sports wisdom, and fitness motivation",
+    "icon": "Dumbbell",
+    "color": "#1e40af",
+    "contentCount": 0,
+    "parentId": null
+  }
+]

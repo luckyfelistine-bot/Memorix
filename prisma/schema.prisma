@@ -1,0 +1,172 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Content {
+  id              String   @id @default(cuid())
+  title           String?
+  body            String
+  category        String
+  subcategory     String?
+  tags            String[] @default([])
+  mood            String?
+  theme           String?
+  occasion        String?
+  language        String   @default("en")
+  region          String?
+  country         String?
+  culture         String?
+  religion        String?
+  author          String?
+  source          String?
+  difficulty      String?
+  readingTime     Int?
+  popularity      Int      @default(0)
+  aiRank          Float    @default(0)
+  favorites       Int      @default(0)
+  likes           Int      @default(0)
+  downloads       Int      @default(0)
+  shares          Int      @default(0)
+  isDaily         Boolean  @default(false)
+  isTrending      Boolean  @default(false)
+  isSeasonal      Boolean  @default(false)
+  season          String?
+  nsfw            Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  @@index([category])
+  @@index([subcategory])
+  @@index([tags])
+  @@index([mood])
+  @@index([occasion])
+  @@index([language])
+  @@index([isDaily])
+  @@index([isTrending])
+  @@index([popularity])
+}
+
+model Philosopher {
+  id              String   @id @default(cuid())
+  name            String   @unique
+  bio             String
+  era             String
+  nationality     String
+  schoolOfThought String?
+  imageUrl        String?
+  birthDate       String?
+  deathDate       String?
+  works           String[] @default([])
+  influenceScore  Int      @default(0)
+  quoteCount      Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  @@index([era])
+  @@index([nationality])
+  @@index([influenceScore])
+}
+
+model Achievement {
+  id              String   @id @default(cuid())
+  title           String
+  person          String
+  date            String
+  year            Int?
+  category        String
+  description     String
+  impactScore     Int      @default(0)
+  relatedQuotes   String[] @default([])
+  imageUrl        String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  @@index([category])
+  @@index([year])
+  @@index([impactScore])
+}
+
+model HistoricalEvent {
+  id              String   @id @default(cuid())
+  title           String
+  date            String
+  day             Int
+  month           Int
+  year            Int
+  description     String
+  category        String
+  era             String?
+  significance    String?
+  relatedContent  String[] @default([])
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  @@index([day, month])
+  @@index([year])
+  @@index([category])
+}
+
+model Meme {
+  id              String   @id @default(cuid())
+  imageUrl        String
+  caption         String?
+  altText         String
+  tags            String[] @default([])
+  category        String
+  popularity      Int      @default(0)
+  source          String?
+  nsfwFlag        Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  @@index([category])
+  @@index([tags])
+  @@index([popularity])
+}
+
+model ApiKey {
+  id              String   @id @default(cuid())
+  keyHash         String   @unique
+  name            String
+  email           String?
+  tier            String   @default("free")
+  rateLimitDaily  Int      @default(100)
+  usageCount      Int      @default(0)
+  isActive        Boolean  @default(true)
+  isAevibron      Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  lastUsed        DateTime?
+  @@index([keyHash])
+  @@index([tier])
+  @@index([isActive])
+}
+
+model UsageLog {
+  id              String   @id @default(cuid())
+  apiKeyId        String
+  endpoint        String
+  method          String
+  status          Int
+  responseTimeMs  Int
+  ipHash          String?
+  createdAt       DateTime @default(now())
+  @@index([apiKeyId])
+  @@index([endpoint])
+  @@index([createdAt])
+}
+
+model Category {
+  id              String   @id @default(cuid())
+  name            String   @unique
+  slug            String   @unique
+  description     String
+  icon            String?
+  color           String   @default("#6366f1")
+  contentCount    Int      @default(0)
+  parentId        String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  @@index([slug])
+  @@index([parentId])
+}

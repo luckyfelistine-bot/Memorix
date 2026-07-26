@@ -1,0 +1,1 @@
+# Seed Data\n\nPlace JSON seed files here. See README.md in project root for schema details.\n
