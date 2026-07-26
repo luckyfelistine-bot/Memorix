@@ -28,7 +28,7 @@ const selectFields = {
 } as const;
 
 export async function GET(request: Request) {
-  return withApiAuth(request, async () => {
+  return withApiAuth(request, async (req) => {
     const { searchParams } = new URL(req.url);
     const category = searchParams.get("category");
 
