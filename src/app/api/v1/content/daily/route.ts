@@ -3,18 +3,43 @@ import { prisma } from "@/lib/db";
 import { withApiAuth, jsonResponse } from "@/lib/api-helper";
 import { getTodaySeed } from "@/lib/utils";
 
+type DailyContent = {
+  id: string;
+  title: string | null;
+  body: string;
+  category: string;
+  subcategory: string | null;
+  tags: string[];
+  mood: string | null;
+  author: string | null;
+  popularity: number;
+};
+
+const selectFields = {
+  id: true,
+  title: true,
+  body: true,
+  category: true,
+  subcategory: true,
+  tags: true,
+  mood: true,
+  author: true,
+  popularity: true,
+} as const;
+
 export async function GET(request: Request) {
-  return withApiAuth(request, async (req) => {
+  return withApiAuth(request, async () => {
     const { searchParams } = new URL(req.url);
     const category = searchParams.get("category");
 
-    // First try to get curated daily content
     const where: any = { isDaily: true };
     if (category) where.category = category;
 
-    let daily = await prisma.content.findFirst({ where });
+    let daily: DailyContent | null = await prisma.content.findFirst({
+      where,
+      select: selectFields,
+    });
 
-    // Fallback: deterministic random based on date
     if (!daily) {
       const seed = getTodaySeed();
       const allWhere: any = {};
@@ -25,10 +50,7 @@ export async function GET(request: Request) {
         daily = await prisma.content.findFirst({
           where: allWhere,
           skip,
-          select: {
-            id: true, title: true, body: true, category: true, subcategory: true,
-            tags: true, mood: true, author: true, popularity: true,
-          },
+          select: selectFields,
         });
       }
     }
