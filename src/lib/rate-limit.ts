@@ -9,9 +9,9 @@ const rateLimitMap = new Map<string, RateLimitEntry>();
 
 function cleanup() {
   const now = Date.now();
-  for (const [key, entry] of rateLimitMap.entries()) {
+  rateLimitMap.forEach((entry, key) => {
     if (entry.resetAt < now) rateLimitMap.delete(key);
-  }
+  });
 }
 
 setInterval(cleanup, 60000);
