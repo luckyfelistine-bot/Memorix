@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Copy, Check, Code2, Terminal, Key, Shield, Zap, Globe, BookOpen } from "lucide-react";
+import { Copy, Check, Code2, Terminal, Key, Shield, Zap, Globe, BookOpen, Brain } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/components/ThemeProvider";
