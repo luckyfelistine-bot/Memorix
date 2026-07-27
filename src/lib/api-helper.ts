@@ -1,9 +1,8 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth-config";
-import { prisma } from "@/lib/db";
 import { checkRateLimit } from "@/lib/rate-limit";
-import { validateApiKey, isAevibronKey } from "@/lib/auth";
+import { validateApiKey } from "@/lib/auth";
 
 export async function withApiAuth(
   request: Request,
@@ -19,8 +18,10 @@ export async function withApiAuth(
 
   // Check API key
   let isAdminKey = false;
+  let keyValid = false;
   if (apiKey) {
     const validation = await validateApiKey(apiKey);
+    keyValid = validation.valid;
     if (!validation.valid && !isAdminSession) {
       return NextResponse.json({ error: "Invalid API key" }, { status: 401 });
     }
@@ -33,7 +34,9 @@ export async function withApiAuth(
     return NextResponse.json({ error: "Admin access required" }, { status: 403 });
   }
 
-  if (!isAdmin && apiKey) {
+  // Rate limit ONLY applies to external API consumers who provide a key
+  // The Memorix app frontend itself browses without limits
+  if (!isAdmin && apiKey && keyValid) {
     const rateLimit = await checkRateLimit(ip + ":" + apiKey, 100, 60000);
     if (!rateLimit.allowed) {
       return NextResponse.json(
@@ -43,11 +46,7 @@ export async function withApiAuth(
     }
   }
 
-  // For free tier without any key
-  if (!isAdmin && !apiKey && !isAdminSession) {
-    return NextResponse.json({ error: "API key required. Get one free at /api-docs" }, { status: 401 });
-  }
-
+  // App frontend and public browsing: no key required, no rate limit
   return handler(request, isAdmin);
 }
 

@@ -11,86 +11,85 @@ export default function AmbientBackground() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    let animationId: number;
-    let particles: { x: number; y: number; vx: number; vy: number; size: number; opacity: number; life: number; maxLife: number }[] = [];
+    let w = window.innerWidth;
+    let h = window.innerHeight;
+    canvas.width = w;
+    canvas.height = h;
 
-    const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-    resize();
-    window.addEventListener("resize", resize);
+    const particles: { x: number; y: number; vx: number; vy: number; size: number; alpha: number }[] = [];
+    const count = 60;
 
-    const createParticle = () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      vx: (Math.random() - 0.5) * 0.3,
-      vy: (Math.random() - 0.5) * 0.3,
-      size: Math.random() * 2 + 0.5,
-      opacity: Math.random() * 0.5 + 0.1,
-      life: 0,
-      maxLife: Math.random() * 400 + 200,
-    });
-
-    for (let i = 0; i < 60; i++) {
-      particles.push(createParticle());
+    for (let i = 0; i < count; i++) {
+      particles.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        size: Math.random() * 2 + 0.5,
+        alpha: Math.random() * 0.5 + 0.1,
+      });
     }
 
-    const draw = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    let frame = 0;
+    const animate = () => {
+      frame = requestAnimationFrame(animate);
+      ctx.clearRect(0, 0, w, h);
 
-      particles.forEach((p, i) => {
+      particles.forEach((p) => {
         p.x += p.vx;
         p.y += p.vy;
-        p.life++;
-
-        if (p.life > p.maxLife || p.x < -10 || p.x > canvas.width + 10 || p.y < -10 || p.y > canvas.height + 10) {
-          particles[i] = createParticle();
-        }
-
-        const fade = p.life < 50 ? p.life / 50 : p.life > p.maxLife - 50 ? (p.maxLife - p.life) / 50 : 1;
-        const alpha = p.opacity * fade;
+        if (p.x < 0) p.x = w;
+        if (p.x > w) p.x = 0;
+        if (p.y < 0) p.y = h;
+        if (p.y > h) p.y = 0;
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(139, 124, 247, ${alpha})`;
+        ctx.fillStyle = `rgba(167, 139, 250, ${p.alpha})`;
         ctx.fill();
       });
 
-      // Draw subtle connection lines between nearby particles
+      // Draw connections
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x;
           const dy = particles[i].y - particles[j].y;
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < 150) {
-            const alpha = (1 - dist / 150) * 0.03;
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(139, 124, 247, ${alpha})`;
+            ctx.strokeStyle = `rgba(167, 139, 250, ${0.04 * (1 - dist / 150)})`;
             ctx.lineWidth = 0.5;
             ctx.stroke();
           }
         }
       }
-
-      animationId = requestAnimationFrame(draw);
     };
 
-    draw();
+    animate();
 
+    const handleResize = () => {
+      w = window.innerWidth;
+      h = window.innerHeight;
+      canvas.width = w;
+      canvas.height = h;
+    };
+
+    window.addEventListener("resize", handleResize);
     return () => {
-      cancelAnimationFrame(animationId);
-      window.removeEventListener("resize", resize);
+      cancelAnimationFrame(frame);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
   return (
-    <canvas
-      ref={canvasRef}
-      className="fixed inset-0 z-0 pointer-events-none"
-      style={{ opacity: 0.6 }}
-    />
+    <div className="ambient-bg">
+      <div className="ambient-grid" />
+      <div className="ambient-orb ambient-orb-1" />
+      <div className="ambient-orb ambient-orb-2" />
+      <div className="ambient-orb ambient-orb-3" />
+      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" style={{ opacity: 0.6 }} />
+    </div>
   );
 }

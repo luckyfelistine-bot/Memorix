@@ -1,139 +1,172 @@
 "use client";
 
-import { Copy, Check, Heart, Share2, Quote } from "lucide-react";
+import { Heart, Share2, Copy, Check } from "lucide-react";
 import { useState } from "react";
 
-interface ContentCardProps {
+interface ContentItem {
   id: string;
-  body: string;
   title?: string | null;
-  author?: string | null;
+  body: string;
   category: string;
   subcategory?: string | null;
   tags?: string[];
   mood?: string | null;
+  theme?: string | null;
+  occasion?: string | null;
+  author?: string | null;
   popularity?: number;
+  likes?: number;
+  createdAt?: string;
 }
 
-const categoryColors: Record<string, string> = {
-  quotes: "#8b7cf7",
-  relationships: "#ec4899",
-  wisdom: "#f59e0b",
-  fun: "#22c55e",
-  brain: "#06b6d4",
-  stories: "#a855f7",
-  entertainment: "#ef4444",
-  lifestyle: "#84cc16",
-  games: "#d946ef",
-  creativity: "#f97316",
-  knowledge: "#eab308",
-  productivity: "#14b8a6",
-  events: "#fb923c",
-  social: "#38bdf8",
-  "health-wellness": "#4ade80",
-  education: "#818cf8",
-  finance: "#34d399",
-  travel: "#0ea5e9",
-  technology: "#6366f1",
-  "pets-nature": "#65a30d",
-  "kids-family": "#f472b6",
-  inspiration: "#c084fc",
-  media: "#f43f5e",
-  "mental-health": "#ec4899",
-  memes: "#10b981",
-  philosophy: "#8b5cf6",
-};
+function getCategoryColor(category: string) {
+  const map: Record<string, string> = {
+    quotes: "#a78bfa",
+    relationships: "#f472b6",
+    wisdom: "#22d3ee",
+    fun: "#fbbf24",
+    "brain-teasers": "#34d399",
+    stories: "#fb923c",
+    entertainment: "#e879f9",
+    lifestyle: "#60a5fa",
+    games: "#a3e635",
+    creativity: "#f87171",
+    knowledge: "#2dd4bf",
+    productivity: "#818cf8",
+    events: "#facc15",
+    "social-media": "#c084fc",
+    "health-wellness": "#4ade80",
+    education: "#38bdf8",
+    finance: "#fbbf24",
+    travel: "#2dd4bf",
+    technology: "#a78bfa",
+    "pets-nature": "#4ade80",
+    "kids-family": "#f472b6",
+    inspiration: "#fb923c",
+    media: "#e879f9",
+    "mental-health": "#22d3ee",
+    memes: "#facc15",
+    philosophy: "#c084fc",
+  };
+  return map[category.toLowerCase()] || "#a78bfa";
+}
 
-export default function ContentCard({ body, title, author, category, subcategory, tags, mood }: ContentCardProps) {
+function getCategoryIcon(category: string) {
+  const icons: Record<string, string> = {
+    quotes: "✦",
+    wisdom: "◈",
+    philosophy: "◉",
+    inspiration: "✧",
+    fun: "◆",
+    memes: "◇",
+    relationships: "♥",
+    "mental-health": "◐",
+    stories: "◊",
+  };
+  return icons[category.toLowerCase()] || "◆";
+}
+
+export default function ContentCard({ item, index = 0 }: { item: ContentItem; index?: number }) {
   const [copied, setCopied] = useState(false);
   const [liked, setLiked] = useState(false);
-  const color = categoryColors[category] || "#8b7cf7";
+  const color = getCategoryColor(item.category);
+  const icon = getCategoryIcon(item.category);
 
-  const handleCopy = async () => {
-    await navigator.clipboard.writeText(body);
+  const handleCopy = () => {
+    navigator.clipboard.writeText(item.body);
     setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    setTimeout(() => setCopied(false), 1500);
   };
 
   const handleShare = async () => {
     if (navigator.share) {
-      await navigator.share({ text: body, title: title || "Memorix" });
+      await navigator.share({ text: item.body, title: item.title || "Memorix" });
     } else {
-      await navigator.clipboard.writeText(body);
+      handleCopy();
     }
   };
 
   return (
-    <div className="content-card group">
+    <div
+      className="content-card group animate-fade-in-up"
+      style={{ animationDelay: `${index * 0.06}s`, opacity: 0 }}
+    >
       {/* Top accent line */}
-      <div className="absolute top-0 left-0 right-0 h-0.5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: `linear-gradient(90deg, transparent, ${color}, transparent)` }} />
+      <div
+        className="absolute top-0 left-4 right-4 h-[2px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        style={{ background: `linear-gradient(90deg, transparent, ${color}, transparent)` }}
+      />
 
-      <div className="flex items-start justify-between mb-4">
-        <div className="flex flex-wrap gap-2">
-          <span
-            className="text-[11px] font-bold px-3 py-1 rounded-full border"
-            style={{ backgroundColor: color + "15", color: color, borderColor: color + "25" }}
-          >
-            {category}
-          </span>
-          {subcategory && (
-            <span className="text-[11px] px-3 py-1 rounded-full bg-[var(--bg-elevated)] text-[var(--text-muted)] border border-[var(--border-color)]">
-              {subcategory}
-            </span>
-          )}
-          {mood && (
-            <span className="text-[11px] px-3 py-1 rounded-full bg-[var(--bg-elevated)] text-[var(--text-secondary)] border border-[var(--border-color)]">
-              {mood}
-            </span>
-          )}
+      {/* Category badge */}
+      <div className="flex items-center justify-between">
+        <div className="badge badge-ghost">
+          <span style={{ color }}>{icon}</span>
+          <span className="capitalize">{item.category}</span>
         </div>
+        {item.subcategory && (
+          <span className="text-[0.7rem] text-[var(--text-muted)] uppercase tracking-wider">
+            {item.subcategory}
+          </span>
+        )}
       </div>
 
-      {title && <h3 className="font-semibold text-base mb-3 text-[var(--text-primary)]">{title}</h3>}
-
+      {/* Body */}
       <div className="relative">
-        <Quote size={28} className="absolute -top-1 -left-1 opacity-10" style={{ color }} />
-        <p className="quote-body pl-6 text-[var(--text-primary)]">{body}</p>
+        <span className="quote-mark" style={{ color }}>"</span>
+        <p className="quote-body pt-6">{item.body}</p>
       </div>
 
-      {author && (
-        <p className="mt-4 text-sm text-[var(--text-muted)] italic pl-6 font-light tracking-wide">— {author}</p>
+      {/* Author */}
+      {item.author && (
+        <p className="text-sm text-[var(--text-muted)] italic">— {item.author}</p>
       )}
 
-      {tags && tags.length > 0 && (
-        <div className="flex flex-wrap gap-1.5 mt-4 pl-6">
-          {tags.slice(0, 5).map((tag) => (
-            <span key={tag} className="text-[10px] px-2 py-0.5 rounded-md bg-[var(--bg-elevated)] text-[var(--text-muted)] border border-[var(--border-color)]">
+      {/* Tags */}
+      {item.tags && item.tags.length > 0 && (
+        <div className="flex flex-wrap gap-1.5">
+          {item.tags.slice(0, 4).map((tag) => (
+            <span
+              key={tag}
+              className="text-[0.7rem] px-2 py-0.5 rounded-full bg-white/[0.03] text-[var(--text-muted)] border border-[var(--border-color)]"
+            >
               #{tag}
             </span>
           ))}
         </div>
       )}
 
-      <div className="flex items-center gap-2 mt-5 pt-4 border-t border-[var(--border-color)] opacity-0 group-hover:opacity-100 transition-all duration-300">
-        <button
-          onClick={handleCopy}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-[var(--text-secondary)] hover:text-[var(--accent)] hover:bg-[var(--accent-glow)] transition-all"
-        >
-          {copied ? <Check size={13} /> : <Copy size={13} />}
-          {copied ? "Copied" : "Copy"}
-        </button>
-        <button
-          onClick={() => setLiked(!liked)}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-            liked ? "text-red-400 bg-red-500/10" : "text-[var(--text-secondary)] hover:text-red-400 hover:bg-red-500/10"
-          }`}
-        >
-          <Heart size={13} className={liked ? "fill-red-400" : ""} />
-          {liked ? "Liked" : "Like"}
-        </button>
-        <button
-          onClick={handleShare}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-[var(--text-secondary)] hover:text-[var(--accent)] hover:bg-[var(--accent-glow)] transition-all"
-        >
-          <Share2 size={13} />
-          Share
-        </button>
+      {/* Actions */}
+      <div className="flex items-center justify-between pt-2 mt-1 border-t border-[var(--border-color)]">
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => setLiked(!liked)}
+            className={`flex items-center gap-1 text-xs transition-colors ${
+              liked ? "text-rose-400" : "text-[var(--text-muted)] hover:text-rose-400"
+            }`}
+          >
+            <Heart className={`w-3.5 h-3.5 ${liked ? "fill-current" : ""}`} />
+            {item.likes || 0}
+          </button>
+          <span className="text-xs text-[var(--text-muted)]">
+            {item.popularity || 0} views
+          </span>
+        </div>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={handleCopy}
+            className="p-1.5 rounded-lg text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-white/5 transition-colors"
+            title="Copy"
+          >
+            {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+          </button>
+          <button
+            onClick={handleShare}
+            className="p-1.5 rounded-lg text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-white/5 transition-colors"
+            title="Share"
+          >
+            <Share2 className="w-3.5 h-3.5" />
+          </button>
+        </div>
       </div>
     </div>
   );
